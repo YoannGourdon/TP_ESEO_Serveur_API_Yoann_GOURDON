@@ -1,25 +1,32 @@
 package com.dto;
 
 public class Coordonnee {
+	private String latitude;
+	private String longitude;
 	
-	private String Longitude;
-	private String Latitude;
-	
-	public Coordonnee(String latitude2, String longitude2) {
-		this.Latitude = latitude2;
-		this.Longitude = longitude2;
+	public Coordonnee(String latitude, String longitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
-	public String getLongitude() {
-		return Longitude;
-	}
-	public void setLongitude(String longitude) {
-		Longitude = longitude;
-	}
+
 	public String getLatitude() {
-		return Latitude;
+		return latitude;
 	}
+
 	public void setLatitude(String latitude) {
-		Latitude = latitude;
+		this.latitude = latitude;
 	}
-	
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	@Override
+	public String toString() {
+		return "" + latitude + " ; " + longitude;
+	}
 }

@@ -2,7 +2,7 @@ package com.dto;
 
 public class Ville {
 	
-	private String code;
+	private String codeInsee;
 	private String nom;
 	private String codePostal;
 	private String libelle;
@@ -11,7 +11,7 @@ public class Ville {
 	
 	
 	public Ville(String code, String nom, String codePostal, String libelle, String ligne5, String latitude, String longitude) {
-		this.code = code;
+		this.codeInsee = code;
 		this.nom = nom;
 		this.codePostal = codePostal;
 		this.libelle = libelle;
@@ -19,11 +19,11 @@ public class Ville {
 		this.coord = new Coordonnee(latitude, longitude);
 	}
 	
-	public String getCode() {
-		return code;
+	public String getCodeInsee() {
+		return codeInsee;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setCodeInsee(String code) {
+		this.codeInsee = code;
 	}
 	public String getNom() {
 		return nom;
@@ -56,6 +56,11 @@ public class Ville {
 	}
 	public void setCoord(Coordonnee coord) {
 		this.coord = coord;
+	}
+	
+	@Override
+	public String toString() {
+		return codeInsee + ";" + nom + ";" + codePostal + ";" + libelle + ";" + ligne5 + ";" + coord.getLatitude() + ";" + coord.getLongitude();
 	}
 	
 }
