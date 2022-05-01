@@ -35,7 +35,7 @@ public class VilleController {
 			}
 
 		}
-		
+
 		for (Ville ville : liste) {
 			result += ville.toString();
 			result += "/";
@@ -67,9 +67,9 @@ public class VilleController {
 		System.out.println("put");
 		String resultat = "Echec";
 		if (ville != null) {
-			if(VilleDAO.villePresente(ville)) {
+			if (VilleDAO.villePresente(ville)) {
 				resultat = VilleDAO.ModifierVille(ville);
-			}else {
+			} else {
 				resultat = VilleDAO.AjouterVille(ville);
 			}
 		}

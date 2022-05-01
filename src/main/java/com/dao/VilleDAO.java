@@ -65,16 +65,16 @@ public class VilleDAO {
 
 	public static List<Ville> recupererVilleCode(String codePostal) {
 		List<Ville> villes = new ArrayList<Ville>();
-		Statement statement = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet resultat = null;
 		Connection connexion = null;
 		try {
 			connexion = getConnection();
-			statement = connexion.createStatement();
-
+			preparedStatement = connexion.prepareStatement("SELECT * FROM ville_france WHERE Code_postal = ? order by Nom_commune ASC;");
+			preparedStatement.setString(1, codePostal);
+			
 			// Exécution de la requête
-			resultat = statement.executeQuery(
-					"SELECT * FROM ville_france WHERE Code_postal = '" + codePostal + "' order by Nom_commune ASC;");
+			resultat = preparedStatement.executeQuery();
 
 			// Récupération des données
 			while (resultat.next()) {
@@ -92,8 +92,8 @@ public class VilleDAO {
 			try {
 				if (resultat != null)
 					resultat.close();
-				if (statement != null)
-					statement.close();
+				if (preparedStatement != null)
+					preparedStatement.close();
 				if (connexion != null)
 					connexion.close();
 			} catch (SQLException ignore) {
@@ -139,11 +139,11 @@ public class VilleDAO {
 		String etatFinal = "Echec de modification";
 		try {
 			connexion = getConnection();
-			PreparedStatement preparedStatement = connexion.prepareStatement(
-					"UPDATE ville_france SET Nom_commune = ?, Code_postal = ?,"
-					+ " Libelle_acheminement = ?, Ligne_5 = ?, Latitude = ?, Longitude = ? "
-					+ " WHERE ville_france.Code_commune_INSEE = ? ;");
-			
+			PreparedStatement preparedStatement = connexion
+					.prepareStatement("UPDATE ville_france SET Nom_commune = ?, Code_postal = ?,"
+							+ " Libelle_acheminement = ?, Ligne_5 = ?, Latitude = ?, Longitude = ? "
+							+ " WHERE ville_france.Code_commune_INSEE = ? ;");
+
 			preparedStatement.setString(1, ville.getNom());
 			preparedStatement.setString(2, ville.getCodePostal());
 			preparedStatement.setString(3, ville.getLibelle());
@@ -181,11 +181,12 @@ public class VilleDAO {
 
 	public static String SupprimerVilleAvecCode(String code) {
 		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
 		String etatFinal = "Echec";
 		System.out.println(code);
 		try {
 			connexion = getConnection();
-			PreparedStatement preparedStatement = connexion
+			preparedStatement = connexion
 					.prepareStatement("DELETE FROM ville_france WHERE Code_commune_INSEE = ?;");
 			preparedStatement.setInt(1, Integer.parseInt(code));
 			// Permet d'ajouter la date actuelle
@@ -196,6 +197,8 @@ public class VilleDAO {
 		} finally {
 			// Fermeture de la connexion
 			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
 				if (connexion != null)
 					connexion.close();
 			} catch (SQLException ignore) {
